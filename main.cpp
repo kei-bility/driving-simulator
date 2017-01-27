@@ -1,9 +1,3 @@
-/* ----------------------------------------------------------------------------------
-     CG‰Û‘è3Fƒhƒ‰ƒCƒrƒ“ƒOƒVƒ~ƒ…ƒŒ[ƒ^[
-     2014/02/16
-     5S 41 R’J‰À—S
-   ---------------------------------------------------------------------------------- */
-
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
@@ -19,8 +13,8 @@
 
 #define FONT_FILE "C:\\Windows\\Fonts\\msgothic.ttc"
 static FTPixmapFont* g_pFont;
-unsigned long g_ulFontSize = 20;  //!< ƒtƒHƒ“ƒgƒTƒCƒY
-unsigned long g_ulGoalFontSize = 60;  //!< ƒS[ƒ‹‚µ‚½Œã‚Ì•\¦—pƒtƒHƒ“ƒgƒTƒCƒY
+unsigned long g_ulFontSize = 20;  //!< ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Tï¿½Cï¿½Y
+unsigned long g_ulGoalFontSize = 60;  //!< ï¿½Sï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½pï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Tï¿½Cï¿½Y
 
 const GLdouble strcolor[][4] = {
 	{ 0.16, 0.5, 0.73, 1.0},	// belize hole
@@ -28,13 +22,13 @@ const GLdouble strcolor[][4] = {
 	{ 0.75, 0.22, 0.169, 1.0},	// pomegranate
 };
 
-// ŒõŒ¹‚ÌˆÊ’u
+// ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÊ’u
 GLfloat light0pos[] = { 0.25, 1.0, 0.25, 1.0  };
 GLfloat light1pos[] = { 0.0, -10.0, 0.0, 1.0 };
 
 GLfloat m_groundColor1[4], m_groundColor2[4];
 
-// ŠeŒõŒ¹‚ÌF
+// ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ÌF
 GLfloat glfLightAmbient[]  = {0.2, 0.2, 0.2, 1.0};
 GLfloat glfLightDiffuse[]  = {0.2, 0.2, 0.2, 1.0};
 GLfloat glfLightSpecular[] = {1.0, 1.0, 1.0, 1.0};
@@ -44,31 +38,31 @@ int windowHeight = 600;
 
 GLfloat np = 1.0;
 
-CRealvector myposi(3.0, 0.7, 0.5);	// ƒJƒƒ‰ˆÊ’u(“K“–‚É’²®)
-CRealvector eyetarget(0.0, 0.2, 0.5);	// ’‹“_‚Íƒ‰ƒ“ƒGƒ{‚Ì‰ŠúˆÊ’u
+CRealvector myposi(3.0, 0.7, 0.5);	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ê’u(ï¿½Kï¿½ï¿½ï¿½É’ï¿½ï¿½ï¿½)
+CRealvector eyetarget(0.0, 0.2, 0.5);	// ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Íƒï¿½ï¿½ï¿½ï¿½Gï¿½{ï¿½Ìï¿½ï¿½ï¿½ï¿½Ê’u
 CRealvector upView = CRealvector(0, 1, 0);
 static GLdouble mDscale = (myposi - eyetarget).length();
-//CRealvector cardir(-1, 0, -10);		// Ô‚Ìis•ûŒüƒxƒNƒgƒ‹
+//CRealvector cardir(-1, 0, -10);		// ï¿½Ô‚Ìiï¿½sï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
 
-/*	ƒfƒoƒbƒO—p‚Ìã‚©‚ç‚Æ‚©‚É‚·‚é‚½‚ß‚Ì‹“_
+/*	ï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½Ìã‚©ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½É‚ï¿½ï¿½é‚½ï¿½ß‚Ìï¿½ï¿½_
 CRealvector myposi(5,20,6.2),eyetarget(0,0,0);
 CRealvector upView = CRealvector(0, 1, 0);
 static GLdouble mDscale = (myposi - eyetarget).length();
 */
 
 static bool isShiftActive=false;
-/* ƒ}ƒEƒX‚Ìâ‘ÎˆÊ’u¨ƒEƒBƒ“ƒhƒE“à‚Å‚Ì‘Š‘ÎˆÊ’u‚ÌŠ·ZŒW” */
+/* ï¿½}ï¿½Eï¿½Xï¿½Ìï¿½ï¿½ÎˆÊ’uï¿½ï¿½ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½Å‚Ì‘ï¿½ï¿½ÎˆÊ’uï¿½ÌŠï¿½ï¿½Zï¿½Wï¿½ï¿½ */
 static int cx, cy;
 static double sx, sy;
 
-//” ”z’u—p‚Ìƒ}[ƒWƒ“i‚­‚Á‚Â‚©‚È‚¢‚æ‚¤‚É‚·‚éˆ×‚Ìj
+//ï¿½ï¿½ï¿½zï¿½uï¿½pï¿½Ìƒ}ï¿½[ï¿½Wï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½ï¿½×‚Ìj
 static const GLdouble margin = 0.005;
 
 //0:NONE 1:LEFT 2:MIDDLE
 static int isMouseDrag = 0;
 // 1:flat, 2:smooth
 int SHADINGMODE = 2;
-// ƒQ[ƒ€ƒXƒ^[ƒg‚Æ•\¦‚·‚é‚©‚Ç‚¤‚©‚Ég‚¤ƒtƒ‰ƒO
+// ï¿½Qï¿½[ï¿½ï¿½ï¿½Xï¿½^ï¿½[ï¿½gï¿½Æ•\ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Égï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
 bool isArrived = false;
 
 CGObjects obj;
@@ -89,34 +83,34 @@ MQO_MODEL plant05;
 MQO_MODEL dog;
 MQO_MODEL cat;
 
-// ƒƒ^ƒZƒRƒCƒA‚Ìƒ‚ƒfƒ‹‚ğ•Ï”‚É“Ç‚İ‚Ş
+// ï¿½ï¿½ï¿½^ï¿½Zï¿½Rï¿½Cï¿½Aï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½É“Ç‚İï¿½ï¿½ï¿½
 void initModel()
 {
 	mqoInit();
-	// ÔŠÖŒW
+	// ï¿½ÔŠÖŒW
 	crown = mqoCreateModel( "mqo/crown.mqo", 0.0035 );
 	AE86 = mqoCreateModel( "mqo/86.mqo", 0.0015);
 	primera = mqoCreateModel( "mqo/primera.mqo", 0.0029);
 	lapin = mqoCreateModel( "mqo/lapin.mqo", 0.004);
 
-	// ŠÖŒW
+	// ï¿½ÖŒW
 	barricade = mqoCreateModel( "mqo/barricade.mqo", 0.0015);
 	safetycone = mqoCreateModel( "mqo/safetycone.mqo", 0.001);
 	guardrail = mqoCreateModel( "mqo/guardrail.mqo", 8);
 
-	// A•¨ŠÖŒW
+	// ï¿½Aï¿½ï¿½ï¿½ÖŒW
 	plant01 = mqoCreateModel( "mqo/plant01.mqo", 0.005);
 	plant02 = mqoCreateModel( "mqo/plant02.mqo", 0.005);
 	plant03 = mqoCreateModel( "mqo/plant03.mqo", 0.005);
 	plant04 = mqoCreateModel( "mqo/plant04.mqo", 0.003);
 	plant05 = mqoCreateModel( "mqo/plant05.mqo", 0.003);
 
-	// “®•¨ŠÖŒW
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW
 	dog = mqoCreateModel( "mqo/dog.mqo", 0.002);
 	cat = mqoCreateModel( "mqo/cat.mqo", 0.005);
 }
 
-// ƒƒ^ƒZƒRƒCƒA‚Ìƒ‚ƒfƒ‹‚ğ‚·‚×‚ÄÁ‚·Œãˆ—‚ğs‚¤
+// ï¿½ï¿½ï¿½^ï¿½Zï¿½Rï¿½Cï¿½Aï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚Äï¿½ï¿½ï¿½ï¿½ãˆï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 void deleteAllModel()
 {
 	mqoDeleteModel( crown );
@@ -138,10 +132,10 @@ void deleteAllModel()
 
 
 /*!
- * •¶š—ñ•`‰æ
- * @param[in] str •¶š—ñ
- * @param[in] w,h ƒEƒBƒ“ƒhƒEƒTƒCƒY
- * @param[in] x0,y0 •¶š—ñ‚ÌˆÊ’u(¶ãŒ´“_‚ÌƒXƒNƒŠ[ƒ“À•WŒn,•¶š—ñ‚Ì¶‰º‚ª‚±‚ÌˆÊ’u‚É‚È‚é)
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
+ * @param[in] str ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param[in] w,h ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Tï¿½Cï¿½Y
+ * @param[in] x0,y0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÊ’u(ï¿½ï¿½ï¿½ãŒ´ï¿½_ï¿½ÌƒXï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½n,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÊ’uï¿½É‚È‚ï¿½)
  */
 void DrawStrings(vector<wstring> &strs, int w, int h, int x0, int y0)
 {
@@ -153,10 +147,10 @@ void DrawStrings(vector<wstring> &strs, int w, int h, int x0, int y0)
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();
-	
+
     glRasterPos2f(x0, y0);
 
-    // ƒtƒHƒ“ƒg‚Ì‰Šú‰»
+    // ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
     if(!g_pFont){
         g_pFont = new FTPixmapFont(FONT_FILE);
         if(g_pFont->Error()){
@@ -173,7 +167,7 @@ void DrawStrings(vector<wstring> &strs, int w, int h, int x0, int y0)
         }
     }
 
-    // FTGL‚Å•¶š—ñ‚ğ•`‰æ
+    // FTGLï¿½Å•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
     if(g_pFont){
         for(int j = 0; j < (int)strs.size(); ++j){
             glRasterPos2f(x0, y0);
@@ -215,9 +209,9 @@ void setViewObjective(CRealvector &myposi, CRealvector &targetPosi, double dx, d
 
 	double lxz;
 	CRealvector tmpV;
-	tmpV.y() = m_leye * sin(m_eye_th1); 
+	tmpV.y() = m_leye * sin(m_eye_th1);
 	lxz = m_leye * cos(m_eye_th1);
-	tmpV.x() = lxz * sin(m_eye_th2); 
+	tmpV.x() = lxz * sin(m_eye_th2);
 	tmpV.z() = lxz * cos(m_eye_th2);
 	eyeP = -tmpV + toeyeP;
 
@@ -229,16 +223,16 @@ void init()
 {
 	mydata.player = new PlayerCar("player", 30);
 	printf("/*--- Driving Simulation ver. 1.0 ---*/\n\n");
-	printf("1–{“¹‚ğ‚Ç‚ñ‚Ç‚ñ‘O‚Öi‚ñ‚ÅƒS[ƒ‹‚Ìƒ`ƒFƒbƒJ[ƒ{[ƒh‚ğ–Úw‚»‚¤!!\n\n");
-	printf("/*--- ‘€ì•û–@ ---*/\n");
-    printf(" ªƒL[ : ƒAƒNƒZƒ‹,  «ƒL[ : ƒuƒŒ[ƒL\n");
-    printf(" ©ƒL[ : ¶‚Ö‹È‚ª‚é,  ¨ƒL[ : ‰E‚Ö‹È‚ª‚é\n");
+	printf("1ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½Ç‚ï¿½ï¿½Oï¿½Öiï¿½ï¿½ï¿½ÅƒSï¿½[ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½Jï¿½[ï¿½{ï¿½[ï¿½hï¿½ï¿½ï¿½Úwï¿½ï¿½ï¿½ï¿½!!\n\n");
+	printf("/*--- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ ---*/\n");
+    printf(" ï¿½ï¿½ï¿½Lï¿½[ : ï¿½Aï¿½Nï¿½Zï¿½ï¿½,  ï¿½ï¿½ï¿½Lï¿½[ : ï¿½uï¿½ï¿½ï¿½[ï¿½L\n");
+    printf(" ï¿½ï¿½ï¿½Lï¿½[ : ï¿½ï¿½ï¿½Ö‹È‚ï¿½ï¿½ï¿½,  ï¿½ï¿½ï¿½Lï¿½[ : ï¿½Eï¿½Ö‹È‚ï¿½ï¿½ï¿½\n");
 
-	// ƒ‰ƒCƒeƒBƒ“ƒO(ŒõŒ¹)‚Ìİ’è
+	// ï¿½ï¿½ï¿½Cï¿½eï¿½Bï¿½ï¿½ï¿½O(ï¿½ï¿½ï¿½ï¿½)ï¿½Ìİ’ï¿½
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
-	// Œõ‚ğ‚ ‚Ä‚é
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½
 	glLightfv(GL_LIGHT0, GL_AMBIENT,  glfLightAmbient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE,  glfLightDiffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, glfLightSpecular);
@@ -248,23 +242,23 @@ void init()
 
 	//glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	glEnable(GL_DEPTH_TEST);        // ƒfƒvƒXƒoƒbƒtƒ@—LŒø
+	glEnable(GL_DEPTH_TEST);        // ï¿½fï¿½vï¿½Xï¿½oï¿½bï¿½tï¿½@ï¿½Lï¿½ï¿½
 	glEnable( GL_AUTO_NORMAL );
 	glEnable(GL_NORMALIZE);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	// ƒVƒF[ƒfƒBƒ“ƒO‚Ìİ’è
+	// ï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½Oï¿½Ìİ’ï¿½
 	if (SHADINGMODE)
-		glShadeModel(GL_FLAT);      // ƒtƒ‰ƒbƒgƒVƒF[ƒfƒBƒ“ƒO
+		glShadeModel(GL_FLAT);      // ï¿½tï¿½ï¿½ï¿½bï¿½gï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½O
 	else
-		glShadeModel(GL_SMOOTH);    // ƒXƒ€[ƒYƒVƒF[ƒfƒBƒ“ƒO
+		glShadeModel(GL_SMOOTH);    // ï¿½Xï¿½ï¿½ï¿½[ï¿½Yï¿½Vï¿½Fï¿½[ï¿½fï¿½Bï¿½ï¿½ï¿½O
 	initModel();
-	glClearColor(0.63f, 0.85f, 0.94f, 1.0f);       // ƒEƒBƒ“ƒhƒE”wŒi‚ÌF‚Ìİ’è
+	glClearColor(0.63f, 0.85f, 0.94f, 1.0f);       // ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½wï¿½iï¿½ÌFï¿½Ìİ’ï¿½
 }
 
 void reshape(int w, int h)
 {
-	// ƒ}ƒEƒXƒ|ƒCƒ“ƒ^ˆÊ’u‚ÌƒEƒBƒ“ƒhƒE“à‚Ì‘Š‘Î“IˆÊ’u‚Ö‚ÌŠ·Z—p
+	// ï¿½}ï¿½Eï¿½Xï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½Ê’uï¿½ÌƒEï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Î“Iï¿½Ê’uï¿½Ö‚ÌŠï¿½ï¿½Zï¿½p
 	sx = M_PI / (double)w;
 	sy = M_PI / (double)h;
 	windowWidth = w;
@@ -328,10 +322,10 @@ void renderScene()
 	mqoCallModel(safetycone);
 	glPopMatrix();
 
-	// ¶ã‚Ì‰Ô
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½
 	for (double i = -4.0; i > -8.0; i -= 1.0) {
 		for (double j = -10.0; j < -2.0; j += 0.5) {
-		
+
 			glPushMatrix();
 			glTranslated(j, 0.0, i);
 			mqoCallModel(plant01);
@@ -340,7 +334,7 @@ void renderScene()
 	}
 	for (double i = -8.0; i > -12.0; i -= 1.0) {
 		for (double j = -10.0; j < -2.0; j += 0.5) {
-		
+
 			glPushMatrix();
 			glTranslated(j, 0.0, i);
 			mqoCallModel(plant03);
@@ -348,10 +342,10 @@ void renderScene()
 		}
 	}
 
-	// ‰E‰º‚Ì‰Ô
+	// ï¿½Eï¿½ï¿½ï¿½Ì‰ï¿½
 	for (double i = -4.0; i > -8.0; i -= 1.0) {
 		for (double j = 4.0; j < 10.0; j += 0.5) {
-		
+
 			glPushMatrix();
 			glTranslated(j, 0.0, i);
 			mqoCallModel(plant01);
@@ -360,43 +354,43 @@ void renderScene()
 	}
 	for (double i = -8.0; i > -12.0; i -= 1.0) {
 		for (double j = 4.0; j < 10.0; j += 0.5) {
-		
+
 			glPushMatrix();
 			glTranslated(j, 0.0, i);
 			mqoCallModel(plant03);
 			glPopMatrix();
 		}
 	}
-	
-	// ¶‰º‚Ì‰Ô
+
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½
 	for (double i = 4.0; i < 8.0; i += 1.0) {
 		for (double j = -10.0; j < -2.0; j += 0.5) {
-		
+
 			glPushMatrix();
 			glTranslated(j, 0.0, i);
 			mqoCallModel(plant02);
 			glPopMatrix();
 		}
 	}
-	// ‰E‰º‚Ì‘‚Æ‹
+	// ï¿½Eï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Æ‹ï¿½
 	for (double i = 3.0; i < 10.0; i += 1.0) {
 		for (double j = 3.0; j < 10.0; j += 0.5) {
-		
+
 			glPushMatrix();
 			glTranslated(j, 0.0, i);
 			mqoCallModel(plant05);
 			glPopMatrix();
 		}
 	}
-	
-	// Œ¢
+
+	// ï¿½ï¿½
 	glPushMatrix();
 	glTranslated(6.0, 0.4, 1.5);
 	glRotated(-90.0, 0.0, 1.0, 0.0);
 	mqoCallModel( dog );
 	glPopMatrix();
 
-	// ”L
+	// ï¿½L
 	glPushMatrix();
 	glTranslated(-4.0, 0.0, -2.0);
 	glRotated(90.0, 0.0, 1.0, 0.0);
@@ -416,14 +410,14 @@ void display()
 		{ 0.8, 0.8, 0.8, 1.0 },
 		{ 0.0, 0.0, 0.0, 1.0 },
 	};
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// ƒEƒBƒ“ƒhƒE‚ğ“h‚è‚Â‚Ô‚·
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Â‚Ô‚ï¿½
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glLightfv(GL_LIGHT0, GL_POSITION, light0pos);
 	glLightfv(GL_LIGHT1, GL_POSITION, light1pos);
 
-	// ‹“_‚ÌˆÚ“®
+	// ï¿½ï¿½ï¿½_ï¿½ÌˆÚ“ï¿½
 	float xx, yy, zz;
 	mydata.player->getpos(xx, yy, zz);
 	float th = mydata.player->getdir();
@@ -433,14 +427,14 @@ void display()
 		myposi.x() = 3.0 + xx;
 		eyetarget.x() = 0.0 + xx;
 	} else {
-		// Šp“x‚É•Ï‰»‚ª‚È‚¢¨’¼i
+		// ï¿½pï¿½xï¿½É•Ï‰ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½i
 		myposi.x() = 3.0 + xx;
 		eyetarget.x() = 0.0 + xx;
 	}
 	if (xx < -175) {
 		isArrived = true;
 	}
-	
+
 	setViewPosition(myposi, eyetarget, upView);
 
 	glPushMatrix();
@@ -472,8 +466,8 @@ void display()
 	vector<wstring> strs;
 	vector<wstring> goal;
     strs.push_back(L"Driving Simulation ver. 1.0");
-    strs.push_back(L" ªƒL[ : ƒAƒNƒZƒ‹,  «ƒL[ : ƒuƒŒ[ƒL");
-    strs.push_back(L" ©ƒL[ : ¶‚Ö‹È‚ª‚é,  ¨ƒL[ : ‰E‚Ö‹È‚ª‚é");
+    strs.push_back(L" ï¿½ï¿½ï¿½Lï¿½[ : ï¿½Aï¿½Nï¿½Zï¿½ï¿½,  ï¿½ï¿½ï¿½Lï¿½[ : ï¿½uï¿½ï¿½ï¿½[ï¿½L");
+    strs.push_back(L" ï¿½ï¿½ï¿½Lï¿½[ : ï¿½ï¿½ï¿½Ö‹È‚ï¿½ï¿½ï¿½,  ï¿½ï¿½ï¿½Lï¿½[ : ï¿½Eï¿½Ö‹È‚ï¿½ï¿½ï¿½");
 	if (isArrived == true) {
 		goal.push_back(L" Goal !!");
 		glColor3dv(strcolor[2]);
@@ -482,7 +476,7 @@ void display()
 		glColor3dv(strcolor[1]);
 		DrawStrings(strs, windowWidth, windowHeight, 10, 18);
 	}
-	
+
 
 	glutSwapBuffers();
 }
@@ -494,42 +488,42 @@ void idle(void)
 
 void mouse(int button, int state, int x, int y)
 {
-	switch (button) 
+	switch (button)
 	{
 	case GLUT_LEFT_BUTTON:
-		switch (state) 
+		switch (state)
 		{
 		case GLUT_DOWN:
-			// ƒhƒ‰ƒbƒOŠJn“_ˆÊ’u‚ğ‹L˜^‚·‚é
+			// ï¿½hï¿½ï¿½ï¿½bï¿½Oï¿½Jï¿½nï¿½_ï¿½Ê’uï¿½ï¿½ï¿½Lï¿½^ï¿½ï¿½ï¿½ï¿½
 			cx = x;
 			cy = y;
-			// ƒAƒjƒ[ƒVƒ‡ƒ“ŠJn
+			// ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½n
 			isMouseDrag = 1;
 			glutIdleFunc(idle);
 			break;
 		case GLUT_UP:
-			// ƒAƒjƒ[ƒVƒ‡ƒ“I—¹
+			// ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 			isMouseDrag = 0;
 			glutIdleFunc(0);
 			break;
 		default:
 			break;
-		}		 
+		}
 		break;
 
 	case GLUT_RIGHT_BUTTON:
 		switch (state)
 		{
 		case GLUT_DOWN:
-			// ƒhƒ‰ƒbƒOŠJn“_ˆÊ’u‚ğ‹L˜^‚·‚é
+			// ï¿½hï¿½ï¿½ï¿½bï¿½Oï¿½Jï¿½nï¿½_ï¿½Ê’uï¿½ï¿½ï¿½Lï¿½^ï¿½ï¿½ï¿½ï¿½
 			cx = x;
 			cy = y;
-			// ƒAƒjƒ[ƒVƒ‡ƒ“ŠJn
+			// ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½n
 			isMouseDrag = 2;
 			glutIdleFunc(idle);
 			break;
 		case GLUT_UP:
-			// ƒAƒjƒ[ƒVƒ‡ƒ“I—¹
+			// ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
 			isMouseDrag = 0;
 			glutIdleFunc(0);
 			break;
@@ -543,8 +537,8 @@ void mouse(int button, int state, int x, int y)
 }
 
 void motion(int x, int y)
-{	
-	// ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚Ìƒhƒ‰ƒbƒOŠJnˆÊ’u‚©‚ç‚Ì•ÏˆÊ (‘Š‘Î’l)d
+{
+	// ï¿½}ï¿½Eï¿½Xï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ÌˆÊ’uï¿½Ìƒhï¿½ï¿½ï¿½bï¿½Oï¿½Jï¿½nï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½Ì•Ïˆï¿½ (ï¿½ï¿½ï¿½Î’l)d
 	if (isMouseDrag == 1)
 	{
 		double dx = (double)(x - cx) * sx;
@@ -554,7 +548,7 @@ void motion(int x, int y)
 		setViewObjective(myposi, eyetarget, dx, dy);
 	}
 	else if (isMouseDrag == 2)
-	{	
+	{
 		double dx = (double)(x - cx) * sx;
 		double dy = (double)(y - cy) * sy;
 		cx = x;
@@ -630,4 +624,3 @@ int main(int argc, char **argv)
 	deleteAllModel();
 	return 0;
 }
-
